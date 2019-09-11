@@ -1,5 +1,5 @@
 const moment = require("moment");
-const badWords = require("./badwords.json");
+const badWords = require("./list/badwords.json");
 const db = require("./db_service/firebaseInit");
 const admin = require("firebase-admin");
 
@@ -18,7 +18,7 @@ function incrementCurseCount(msg) {
 		username: author
 	});
 
-	let curseWords = getCurseWords(msg.content);
+	let curseWords = getCurseWords(msg.content); // Function located at the eof
 
 	if (curseWords.length < 1) return;
 
@@ -29,19 +29,23 @@ function incrementCurseCount(msg) {
 			}
 		}, {
 			merge: true
+		}).catch((err) => {
+			console.log(`Update error: byDate:[${Date.now()}]\n ${err}`);
 		});
 
 		total_ref.set({
 			[curseWord]: increment
 		}, {
 			merge: true
+		}).catch((err) => {
+			console.log(`Update error: total:[${Date.now()}]\n ${err}`);
 		});
 	});
 }
 
 function getCurseWords(msg) {
 	msg = msg.toLowerCase();
-	let regex = /\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\=|\+|\[|\{|\}|\]|\;|\:|\'|\"|\,|\<|\.|\>|\/|\?|\\|\|/g;
+	let regex = /!|@|#|\$|%|\^|&|\*|\(|\)|-|_|=|\+|\[|\{|\}|\]|;|:|'|"|,|<|\.|>|\/|\?|\\|\|/g;
 	msg = msg.replace(regex, ""); //Getting rid of signs such as punctuations
 	msg = msg.split(" ");
 
