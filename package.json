@@ -1,0 +1,30 @@
+{
+  "name": "wicurse",
+  "version": "1.0.0",
+  "description": "Discord bot to count profanity",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ng9891/WiCurse.git"
+  },
+  "author": "vT",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ng9891/WiCurse/issues"
+  },
+  "homepage": "https://github.com/ng9891/WiCurse#readme",
+  "dependencies": {
+    "bad-words": "^3.0.3",
+    "discord.js": "^11.5.1",
+    "dotenv": "^8.1.0",
+    "eslint": "^6.3.0",
+    "firebase-admin": "^8.5.0",
+    "install": "^0.13.0",
+    "moment": "^2.24.0",
+    "npm": "^6.11.3"
+  }
+}
