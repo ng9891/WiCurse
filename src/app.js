@@ -8,12 +8,10 @@ bot.on("message", (msg) => {
 	// Do nothing if you are a bot or an attatchment or a link
 	if (msg.author.bot || msg.attachments.size > 0 || msg.embeds[0]) return;
 
-	// Checking for commands
-	if (msg.content[0] === "!") {
-		return runCommand(msg);
-	}
+	// Checking if its !wc
+	if (msg.content.trim().slice(0, 3) === "!wc") return runCommand(msg);
 
-	incrementCurseCount(msg);
+	// incrementCurseCount(msg);
 });
 
 bot.on("error", err => {

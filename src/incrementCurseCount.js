@@ -1,55 +1,71 @@
-const moment = require("moment");
+// const moment = require("moment");
 const badWords = require("./list/badwords.json");
-const db = require("./db_service/firebaseInit");
-const admin = require("firebase-admin");
+const {
+	db,
+	admin
+} = require("./db_service/firebaseInit");
 
-function incrementCurseCount(msg) {
+async function incrementCurseCount(msg) {
 	let id = msg.author.id;
 	let author = msg.author.username;
-	let date = moment(msg.createdTimestamp).startOf("month");
-	date = moment(date).valueOf(); //Timestamp by month
+	let date = new Date; //Timestamp by month
 	let increment = admin.firestore.FieldValue.increment(1);
 
-	let ref = db.collection("tracking").doc(id);
-	let byDate_ref = ref.collection("curses").doc("byDate");
-	let total_ref = ref.collection("curses").doc("total");
-
-	ref.set({
-		username: author
-	});
+	let users_ref = db.collection("users").doc(id);
+	let curse_ref = db.collection("curses").doc(id);
 
 	let curseWords = getCurseWords(msg.content); // Function located at the eof
 
 	if (curseWords.length < 1) return;
 
-	curseWords.forEach((curseWord) => {
-		byDate_ref.set({
-			[date]: {
-				[curseWord]: increment
-			}
-		}, {
-			merge: true
-		}).catch((err) => {
-			console.log(`Update error: byDate:[${Date.now()}]\n ${err}`);
-		});
+	await users_ref.get().then((doc) => {
+		if (!doc.exists) {
+			users_ref.set({
+				createdAt: date,
+				username: author,
+				total: 0
+			}).catch((err) => {
+				console.log(`Set error: users_ref:[${Date.now()}]\n ${err}`);
+			});
+		}
+	});
 
-		total_ref.set({
-			[curseWord]: increment
-		}, {
-			merge: true
-		}).catch((err) => {
-			console.log(`Update error: total:[${Date.now()}]\n ${err}`);
-		});
+	curseWords.forEach((curseWord) => {
+		try {
+			curse_ref.set({
+				[curseWord]: increment
+			}, {
+				merge: true
+			});
+
+			users_ref.set({
+				total: increment
+			}, {
+				merge: true
+			});
+
+			let newTracking = {
+				createdAt: date,
+				curseWord: curseWord,
+				id: id,
+				username: author,
+				message: msg.content.trim()
+			};
+			let tracking_ref = db.collection("tracking").doc(); // Create new key
+			tracking_ref.set(newTracking, {
+				merge: true
+			});
+		} catch (err) {
+			console.log(`Set error: [${Date.now()}]\n ${err}`);
+		}
 	});
 }
 
-function getCurseWords(msg) {
-	msg = msg.toLowerCase();
+function getCurseWords(text) {
 	let regex = /!|@|#|\$|%|\^|&|\*|\(|\)|-|_|=|\+|\[|\{|\}|\]|;|:|'|"|,|<|\.|>|\/|\?|\\|\|/g;
-	msg = msg.replace(regex, ""); //Getting rid of signs such as punctuations
-	msg = msg.split(" ");
+	text = text.trim().toLowerCase().replace(regex, "").split(" "); //Getting rid of signs such as punctuations
 
-	let badBadWords = msg.filter((word) => badWords.words.includes(word));
+	let badBadWords = text.filter((word) => badWords.words.includes(word));
 
 	return badBadWords;
 }
