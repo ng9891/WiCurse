@@ -7,7 +7,6 @@ function translate(msg) {
 
 function yandex(msg) {
 	let text = msg.content.trim().slice(9); // Taking out !wc trans
-
 	let uriText = encodeURI(text);
 	let apiroute = `https://translate.yandex.net/api/v1.5/tr.json/translate?key=${process.env.YANDEX_KEY}
 					&text=${uriText}&lang=en&hint=kr,jp,es&format=html&options=1`;

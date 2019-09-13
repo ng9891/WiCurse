@@ -1,7 +1,7 @@
 /* eslint-disable indent */
 const getCommand = require("./get/get");
 const translate = require("./trans/trans");
-const helpMsg = require("../helper/helper");
+const helpMsg = require("../helper/helpMsg");
 
 function runCommand(msg) {
 	let split_msg = msg.content.toLowerCase().trim().split(" ");
