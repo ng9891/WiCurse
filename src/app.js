@@ -5,13 +5,13 @@ const bot = new Discord.Client();
 require("dotenv").config();
 
 bot.on("message", (msg) => {
-	// Do nothing if you are a bot or an attatchment or a link
-	if (msg.author.bot || msg.attachments.size > 0 || msg.embeds[0]) return;
+	// Do nothing if you are a bot or a link
+	if (msg.author.bot || msg.embeds[0]) return;
 
 	// Checking if its !wc
 	if (msg.content.trim().slice(0, 3) === "!wc") return runCommand(msg);
 
-	// incrementCurseCount(msg);
+	incrementCurseCount(msg);
 });
 
 bot.on("error", err => {

@@ -3,7 +3,7 @@ const badWords = require("./list/badwords.json");
 const {
 	db,
 	admin
-} = require("./db_service/firebaseInit");
+} = require("./db_service/firebase");
 
 async function incrementCurseCount(msg) {
 	let id = msg.author.id;
@@ -65,6 +65,7 @@ function getCurseWords(text) {
 	let regex = /!|@|#|\$|%|\^|&|\*|\(|\)|-|_|=|\+|\[|\{|\}|\]|;|:|'|"|,|<|\.|>|\/|\?|\\|\|/g;
 	text = text.trim().toLowerCase().replace(regex, "").split(" "); //Getting rid of signs such as punctuations
 
+	// Could've have used indexOf() instead but that would create a lot of false positives.
 	let badBadWords = text.filter((word) => badWords.words.includes(word));
 
 	return badBadWords;
