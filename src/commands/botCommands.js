@@ -1,5 +1,6 @@
 /* eslint-disable indent */
 const getCommand = require("./get/get");
+const translate = require("./trans/trans");
 const helpMsg = require("../helper/helper");
 
 function runCommand(msg) {
@@ -15,7 +16,8 @@ function runCommand(msg) {
 		case "stopcurse":
 			// Stop tracking but doesnt not eliminate previous record.
 			break;
-		case "def":
+		case "trans":
+			translate(msg);
 			break;
 		case "get":
 			getCommand(msg, args);

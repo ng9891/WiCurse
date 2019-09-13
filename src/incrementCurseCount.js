@@ -14,7 +14,7 @@ async function incrementCurseCount(msg) {
 	let users_ref = db.collection("users").doc(id);
 	let curse_ref = db.collection("curses").doc(id);
 
-	let curseWords = getCurseWords(msg.content); // Function located at the eof
+	let curseWords = filterMessage(msg.content); // Function located at the eof
 
 	if (curseWords.length < 1) return;
 
@@ -56,12 +56,12 @@ async function incrementCurseCount(msg) {
 				merge: true
 			});
 		} catch (err) {
-			console.log(`Set error: [${Date.now()}]\n ${err}`);
+			console.log(`Set error: Set block[${Date.now()}]\n ${err}`);
 		}
 	});
 }
 
-function getCurseWords(text) {
+function filterMessage(text) {
 	let regex = /!|@|#|\$|%|\^|&|\*|\(|\)|-|_|=|\+|\[|\{|\}|\]|;|:|'|"|,|<|\.|>|\/|\?|\\|\|/g;
 	text = text.trim().toLowerCase().replace(regex, "").split(" "); //Getting rid of signs such as punctuations
 
