@@ -14,7 +14,9 @@ YANDEX_KEY = "your_yandex_API_key"
 ```
 2. Get the`JSON` file of your `Firestore` Database API and add it in the `root` folder.
 
-3. Finally start the server with: `npm start` .
+3. Go to `./src/db_service/firebase.js` and change the name of the Firestore API JSON file. 
+
+4. Finally start the server with: `npm start` .
 
 # Description
 ### Bot commands (credits to @wizo06)
