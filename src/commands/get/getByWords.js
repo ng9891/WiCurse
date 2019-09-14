@@ -7,7 +7,7 @@ function getByWords(msg, words) {
 	// Get by words
 	let curse_ref = db.collection("curses").doc(msg.mentions.users.firstKey());
 	curse_ref.get().then(((doc) => {
-		if (!doc.exists) return msg.channel.send(`<@${msg.mentions.users.firstKey()} has not made any curses... yet.`);
+		if (!doc.exists) return msg.channel.send(`<@${msg.mentions.users.firstKey()}> has not made any curses... yet.`);
 		let data = doc.data();
 
 		let output = `<@${doc.id}> curse list:\n\`\`\``;

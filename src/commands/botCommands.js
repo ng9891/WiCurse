@@ -1,6 +1,8 @@
 /* eslint-disable indent */
 const getCommand = require("./get/get");
 const translate = require("./trans/trans");
+const addWords = require("./addword/addwords");
+const delWords = require("./delword/delwords");
 const helpMsg = require("../helper/helpMsg");
 
 function runCommand(msg) {
@@ -11,13 +13,14 @@ function runCommand(msg) {
 	if (msg.channel.type === "dm") return msg.channel.send("Sorry commands not available on DM's");
 
 	switch (cmd) {
-		case "trackcurse":
+		case "addword":
+			addWords(msg, args);
 			break;
-		case "stopcurse":
-			// Stop tracking but doesnt not eliminate previous record.
+		case "delword":
+			delWords(msg, args);
 			break;
 		case "trans":
-			translate(msg);
+			translate(msg, args);
 			break;
 		case "get":
 			getCommand(msg, args);

@@ -11,7 +11,7 @@ async function getWordsFrom(msg, args) {
 	let countWords = {};
 	let fromDate = moment(args[0].slice(2), "YYYY-MM-DD"); // Take out 'f:'
 
-	if (!fromDate.isValid()) return msg.channel.send("Invalid 'From' Date. Please try again."); //TODO: msgErr: Invalid date.
+	if (!fromDate.isValid()) return msg.channel.send("Invalid 'From' Date. Please try again.");
 
 	fromDate = fromDate.toDate();
 

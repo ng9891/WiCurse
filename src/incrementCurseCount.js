@@ -1,5 +1,4 @@
 // const moment = require("moment");
-const badWords = require("./list/badwords.json");
 const {
 	db,
 	admin
@@ -62,6 +61,7 @@ async function incrementCurseCount(msg) {
 }
 
 function filterMessage(text) {
+	const badWords = require("./list/badwords.json");
 	let regex = /!|@|#|\$|%|\^|&|\*|\(|\)|-|_|=|\+|\[|\{|\}|\]|;|:|'|"|,|<|\.|>|\/|\?|\\|\|/g;
 	text = text.trim().toLowerCase().replace(regex, "").split(" "); //Getting rid of signs such as punctuations
 

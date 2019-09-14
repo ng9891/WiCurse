@@ -6,11 +6,11 @@ const getWordsTo = require("./getWordsTo");
 
 function getCommand(msg, args) {
 	// Checking correct number of params
-	if (msg.mentions.users.size !== 1) return console.log("Userid needed or only 1 user"); // TODO: ErrMsg: Userid needed or only 1 user
+	if (msg.mentions.users.size !== 1) return msg.channel.send("Please @user in the correct order or only 1.");
 
 	let userId = args[0].slice(2, -1);
 	let mention = msg.mentions.users.firstKey();
-	if (userId !== mention) return console.log("3rd param is not a valid userid"); // TODO: ErrMsg: 3rd param is not a valid userid
+	if (userId !== mention) return msg.channel.send("Invalid @username.");
 
 	// When arguments are empty
 	if (!args[1]) return getAllWords(msg);

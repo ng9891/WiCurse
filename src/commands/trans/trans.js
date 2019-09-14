@@ -1,7 +1,8 @@
 const request = require("request");
 require("dotenv").config();
 
-function translate(msg) {
+function translate(msg, args) {
+	if (args.length < 1) return msg.channel.send("https://papago.naver.com/");
 	yandex(msg);
 }
 
