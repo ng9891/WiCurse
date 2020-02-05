@@ -1,0 +1,5 @@
+# Discord bot token
+DISCORD_TOKEN = ""
+
+# Yandex API key for "!wc trans" command
+YANDEX_KEY = ""

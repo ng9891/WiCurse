@@ -2,25 +2,42 @@
 A Discord Bot to count profanity.
 
 ### Getting started:
-```sh-session
-$ git clone https://github.com/ng9891/WiCurse.git
-$ cd WiCurse
-$ npm i  
-```
-1. Create a `.env` file in the `root` folder
-```code
-DISCORD_TOKEN = "your_discord_token"
-YANDEX_KEY = "your_yandex_API_key"
-```
-2. Get the`JSON` file of your `Firestore` Database API and add it in the `root` folder.
 
-3. Go to `./src/db_service/firebase.js` and change the name of the Firestore API JSON file. 
+#### Configure
+1. Run
+```bash
+./prepare.sh
+```
 
-4. Finally start the server with: `npm start` .
+2. Make the necessary changes in `conf/user_config.toml`
+
+3. Create a [Firebase](https://console.firebase.google.com) project and obtain your `serviceAccountKey.json` from the project settings
+
+4. Place your `serviceAccountKey.json` inside `conf/`
+
+#### Start up WiCurse
+```bash
+npm start
+```
 
 # Description
-### Bot commands (credits to @wizo06)
-![alt text](https://puu.sh/EggQ9/7242991acc.png "Commands you could use") 
+### Bot commands (credits to [@wizo06](https://github.com/wizo06))
+```
+!wc get <discord tag> [f:YYYY-MM-DD] [t:YYYY-MM-DD] [word1] [word2] ... [word n]    
+
+<> means required    
+[] means optional    
+
+Examples:    
+
+!wc get @wizo#0006    
+!wc get @wizo#0006 total    
+!wc get @wizo#0006 sh!t fck d4mn    
+!wc get @wizo#0006 f:2019-08-01    
+!wc get @wizo#0006 t:2019-08-30    
+!wc get @wizo#0006 f:2019-08-01 t:2019-08-30    
+!wc get @wizo#0006 f:2019-08-01 t:2019-08-30 sh!t fck d4mn
+```
 
 To add/delete words to the list:
 ```

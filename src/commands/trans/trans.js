@@ -1,5 +1,8 @@
+const path = require('path');
 const request = require('request');
-require('dotenv').config();
+require('toml-require').install({ toml: require('toml') });
+
+const CONFIG = require(path.join(process.cwd(), 'conf/user_config.toml'));
 
 function translate(msg, args) {
   if (args.length < 1) return msg.channel.send('https://papago.naver.com/');
@@ -10,7 +13,7 @@ function yandex(msg) {
   const text = msg.content.trim().slice(9); // Taking out !wc trans
   const uriText = encodeURI(text);
   const apiroute =
-    `https://translate.yandex.net/api/v1.5/tr.json/translate?key=${process.env.YANDEX_KEY}` +
+    `https://translate.yandex.net/api/v1.5/tr.json/translate?key=${CONFIG.YANDEX_KEY}` +
     `&text=${uriText}&lang=en&hint=kr,jp,es&format=html&options=1`;
 
   request(apiroute, (err, res, body) => {
