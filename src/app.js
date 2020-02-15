@@ -1,8 +1,11 @@
+const path = require('path');
 const runCommand = require('./commands/botCommands');
 const incrementCurseCount = require('./incrementCurseCount.js');
 const Discord = require('discord.js');
 const bot = new Discord.Client();
-require('dotenv').config();
+require('toml-require').install({ toml: require('toml') });
+
+const CONFIG = require(path.join(process.cwd(), 'conf/user_config.toml'));
 
 bot.on('message', (msg) => {
   // Do nothing if you are a bot or a link
@@ -18,6 +21,6 @@ bot.on('error', (err) => {
   console.log(err);
 });
 
-bot.login(process.env.DISCORD_TOKEN).then(() => {
+bot.login(CONFIG.DISCORD_TOKEN).then(() => {
   console.log('Bot is connected and ready.');
 }).catch((err) => console.log(`Loggin error: [${Date.now()}]\n ${err}`));

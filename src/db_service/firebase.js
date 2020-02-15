@@ -1,5 +1,6 @@
+const path = require('path');
 const admin = require('firebase-admin');
-const serviceAccount = require('../../wicurse-36db057e6492.json');
+const serviceAccount = require(path.join(process.cwd(), 'conf/serviceAccountKey.json'));
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
