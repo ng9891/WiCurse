@@ -8,7 +8,7 @@ function getCommand(msg, args) {
   // Checking correct number of params
   if (msg.mentions.users.size !== 1) return msg.channel.send('Please @user in the correct order or only 1.');
 
-  const userId = args[0].slice(2, -1);
+  const userId = args[0].match(/\d+/)[0]
   const mention = msg.mentions.users.firstKey();
   if (userId !== mention) return msg.channel.send('Invalid @username.');
 
