@@ -6,11 +6,12 @@ const getWordsTo = require('./getWordsTo');
 
 function getCommand(msg, args) {
   // Checking correct number of params
-  if (msg.mentions.users.size !== 1) return msg.channel.send('Please @user in the correct order or only 1.');
+  if (msg.mentions.users.size === 0) return msg.channel.send('Please @ a user.');
+  if (msg.mentions.users.size !== 1) return msg.channel.send('Only one @ permitted.');
 
-  const userId = args[0].match(/\d+/)[0]
+  const userId = args[0].match(/\d+/)[0];
   const mention = msg.mentions.users.firstKey();
-  if (userId !== mention) return msg.channel.send('Invalid @username.');
+  if (userId !== mention) return msg.channel.send('Incorrect @User order. Use `!wc help` for more information.');
 
   // When arguments are empty
   if (!args[1]) return getAllWords(msg);

@@ -1,7 +1,22 @@
 // const moment = require("moment");
 const {db, admin} = require('./db_service/firebase');
 
+function filterMessage(text) {
+  const badWords = require('./list/badwords.json');
+  const regex = /!|@|#|\$|%|\^|&|\*|\(|\)|-|_|=|\+|\[|\{|\}|\]|;|:|'|"|,|<|\.|>|\/|\?|\\|\|/g;
+  const cleanText = text.trim().toLowerCase().replace(regex, '').split(' '); // Getting rid of signs such as punctuations
+
+  // Could've have used indexOf() instead but that would create a lot of false positives.
+  const badBadWords = cleanText.filter((word) => badWords.words.includes(word));
+
+  return badBadWords;
+}
+
 async function incrementCurseCount(msg) {
+  const curseWords = filterMessage(msg.content); // Function located at the eof
+  if (curseWords.length < 1) return;
+  console.log(`WiCurse: [${Date.now()}] DB write with words: ${curseWords}`);
+
   const id = msg.author.id;
   const author = msg.author.username;
   const date = new Date(); // Timestamp by month
@@ -9,10 +24,6 @@ async function incrementCurseCount(msg) {
 
   const usersRef = db.collection('users').doc(id);
   const cursesRef = db.collection('curses').doc(id);
-
-  const curseWords = filterMessage(msg.content); // Function located at the eof
-
-  if (curseWords.length < 1) return;
 
   await usersRef.get().then((doc) => {
     if (!doc.exists) {
@@ -63,17 +74,6 @@ async function incrementCurseCount(msg) {
       console.log(`Set error: Set block[${Date.now()}]\n ${err}`);
     }
   });
-}
-
-function filterMessage(text) {
-  const badWords = require('./list/badwords.json');
-  const regex = /!|@|#|\$|%|\^|&|\*|\(|\)|-|_|=|\+|\[|\{|\}|\]|;|:|'|"|,|<|\.|>|\/|\?|\\|\|/g;
-  const cleanText = text.trim().toLowerCase().replace(regex, '').split(' '); // Getting rid of signs such as punctuations
-
-  // Could've have used indexOf() instead but that would create a lot of false positives.
-  const badBadWords = cleanText.filter((word) => badWords.words.includes(word));
-
-  return badBadWords;
 }
 
 module.exports = incrementCurseCount;
